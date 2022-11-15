@@ -2,8 +2,11 @@ import { Request, Response } from "express";
 import { SignupRequest } from "../requests/SignupRequest";
 import { User } from "../models/User";
 import { AppDataSource } from "../database";
-import bcrypt from "bcrypt";
 import { Account } from "../models/Account";
+import { AccessToken } from "../models/AccessToken";
+import { LoginRequest } from "../requests/LoginRequest";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req: Request, res: Response) => {
   const { username, password } = req.body as SignupRequest;
@@ -43,4 +46,35 @@ export const signup = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { username, password } = req.body as LoginRequest;
+
+  // Get user from database
+  const userRepository = AppDataSource.getRepository(User);
+  const user = await userRepository.findOneBy({ username });
+
+  // Check if user exists
+  if (!user)
+    return res.status(400).json({ message: "Username or password is incorrect" });
+
+  // Check if password is correct
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword)
+    return res.status(400).json({ message: "Username or password is incorrect" });
+
+  // Set jwt token expiration time to 1 day (86400 seconds)
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
+    expiresIn: 86400,
+  });
+
+  // Save token to database
+  const accessTokenRepository = AppDataSource.getRepository(AccessToken);
+  const accessToken = new AccessToken();
+  accessToken.token = token;
+  accessToken.tokenExpires = new Date(Date.now() + 86400 * 1000);
+  const newAccessToken = await accessTokenRepository.save(accessToken);
+
+  return res.status(200).json({ token: newAccessToken.token });
 };

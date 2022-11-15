@@ -1,10 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { Account } from './Account';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
+import { Account } from "./Account";
 
 @Entity()
 export class User {
-
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ unique: true })
@@ -13,6 +12,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToOne(() => Account, account => account.user)
+  @OneToOne(() => Account, (account) => account.user)
   account: Account;
 }

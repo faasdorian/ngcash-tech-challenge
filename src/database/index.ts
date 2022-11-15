@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { AccessToken } from "../models/AccessToken";
 import { Account } from "../models/Account";
 import { User } from "../models/User";
 
@@ -10,10 +11,9 @@ export const AppDataSource = new DataSource({
   username: "postgres",
   password: "docker",
   database: "db",
-  entities: [User, Account],
+  entities: [User, Account, AccessToken],
   synchronize: true,
   logging: false,
 });
 
-AppDataSource.initialize()
-  .catch((error) => console.error(error));
+AppDataSource.initialize().catch((error) => console.error(error));
