@@ -1,7 +1,8 @@
 import express from 'express';
-import helloRoutes from './routes/hello';
+import authRoutes from './routes/auth';
 
 const app = express();
-app.use('/hello', helloRoutes);
+app.use(express.json());
+app.use('/auth', authRoutes);
 
 app.listen(3000);
