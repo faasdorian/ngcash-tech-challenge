@@ -10,6 +10,6 @@ export class Account {
   @JoinColumn()
   user: User;
 
-  @Column({ type: "decimal", precision: 10, scale: 2 })
+  @Column({ type: "real" })
   balance: number;
 }
