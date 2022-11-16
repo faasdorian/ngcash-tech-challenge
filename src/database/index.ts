@@ -4,6 +4,7 @@ import { DataSource } from "typeorm";
 import { AccessToken } from "../models/AccessToken";
 import { Account } from "../models/Account";
 import { User } from "../models/User";
+import { Transaction } from "../models/Transaction";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [User, Account, AccessToken],
+  entities: [User, Account, AccessToken, Transaction],
   synchronize: true,
   logging: false,
 });
