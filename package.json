@@ -4,8 +4,8 @@
   "description": "Estruturar uma aplicação back-end, dockerizada, cujo objetivo seja possibilitar que usuários da NG consigam realizar transferências internas entre si.",
   "main": "app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "repository": {
     "type": "git",

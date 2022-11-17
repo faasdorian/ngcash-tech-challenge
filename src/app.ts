@@ -7,4 +7,4 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/account", accountRoutes);
 
-app.listen(3000);
+app.listen(8080);

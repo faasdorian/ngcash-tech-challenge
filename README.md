@@ -9,9 +9,13 @@ Estruturar uma aplicação back-end, dockerizada, cujo objetivo seja possibilita
 - JWT (https://jwt.io/)
 - Bcrypt (https://www.npmjs.com/package/bcrypt)
 
-## Configurar o ambiente
+## Para rodar a aplicação em Docker
 ```
 npm install
+```
+Executar build do typescript
+```
+npm run build
 ```
 Gerar private key (private-key.pem) para assinar o token JWT
 ```
@@ -21,19 +25,22 @@ Iniciar o banco de dados local
 ```
   docker run --name postgres-db -e POSTGRES_USER=root -e POSTGRES_PASSWORD=password -e POSTGRES_DB=db -p 5432:5432 -d postgres
 ```
-Definir as variáveis de ambiente (.env)
+Inserir as váriaveis de ambiente do container no Dockerfile
 ```
-JWT_SECRET=secret
-DB_USERNAME=root
-DB_PASSWORD=password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=db
+ENV JWT_SECRET=private key gerada no passo anterior
+ENV DB_USERNAME=root
+ENV DB_PASSWORD=password
+ENV DB_HOST=172.17.0.1
+ENV DB_PORT=5432
+ENV DB_NAME=db
 ```
-
-## Iniciar o projeto
+Executar build da imagem docker
 ```
-npm start
+docker build -t ngcash-tech-challenge .
+```
+Executar container
+```
+docker run -p 8080:8080 -d ngcash-tech-challenge
 ```
 
 ## Estrutura de dados

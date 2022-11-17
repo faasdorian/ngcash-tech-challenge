@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
 
   // Get user from database
   const userRepository = AppDataSource.getRepository(User);
-  const user = await userRepository.findOneBy({ username });
+  const user = await userRepository.findOne({ where: { username }, relations: ["account"] });
 
   // Check if user exists
   if (!user)
@@ -76,5 +76,7 @@ export const login = async (req: Request, res: Response) => {
   accessToken.tokenExpires = new Date(Date.now() + 86400 * 1000);
   const newAccessToken = await accessTokenRepository.save(accessToken);
 
-  return res.status(200).json({ token: newAccessToken.token });
+  return res
+    .status(200)
+    .json({ token: newAccessToken.token, accountId: user.account.id });
 };
