@@ -76,7 +76,7 @@ docker run -p 8080:8080 -d ngcash-tech-challenge
 - GET /account/:accountId/transactions<br>
   Optional query params:
     - limit: number
-    - offset: number
+    - page: number
     - createdAt: string (YYYY-MM-DD)
     - type: string (debit, credit)
 
